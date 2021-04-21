@@ -1,3 +1,4 @@
+/*
 #include <WebServer.h>
 #include <M5Core2.h>
 #include <Arduino.h>
@@ -42,7 +43,7 @@ void handleMove(){
             case pos_Z: golem.position.z = golem_server.arg(i).toFloat();
         }
     }
-    golem_server.send(200, "text/plain", "ok");   
+    golem_server.send(200, "text/plain", "ok");
 }
 
 void handleStop(){
@@ -56,3 +57,4 @@ void golem_api_setup(){
     golem_server.onNotFound(handleNotFound);
     golem_server.begin();
 }
+*/

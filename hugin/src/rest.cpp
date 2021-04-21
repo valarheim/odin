@@ -1,11 +1,14 @@
+/*
 #include <Arduino.h>
 #include <WiFi.h>
+#include <WiFiClient.h>
+#include <WebServer.h>
+#include <ESPmDNS.h>
 #include <M5Core2.h>
+#include "api.h"
 
 const char* ssid = "";
 const char* password = "";
-
-WiFiServer wifiServer(80);
 
 void wifi_setup(){
   WiFi.mode(WIFI_STA);
@@ -25,7 +28,9 @@ void wifi_setup(){
   char localIP[50];
   WiFi.localIP().toString().toCharArray(localIP, 50);
   M5.Lcd.printf(localIP);
+  MDNS.begin("esp32");
 }
+
 
 void setup(void) {
   M5.begin();
@@ -33,23 +38,14 @@ void setup(void) {
   M5.Lcd.setTextColor(GREEN , BLACK);
   M5.Lcd.setTextSize(2);
   wifi_setup();
+  golem_api_setup();
   M5.Lcd.setCursor(0, 170);
   M5.Lcd.printf("Golem server started");
-  wifiServer.begin();
 }
 
 void loop(void) {
-  WiFiClient client = wifiServer.available();
-  if (client) {
-      while (client.connected()) {
-        char out[50];
-        String input = "";
-        while (client.available()>0) {
-          char inputChar = client.read();
-          if(inputChar == ';') break;
-          input += inputChar;
-        }
-      }
-      client.stop();
-  }
+  golem_server.handleClient();
+  M5.Lcd.setCursor(0, 190);
+  M5.Lcd.printf("Position: %.02f %.02f %.02f", golem.position.x, golem.position.y, golem.position.z);
 }
+*/
